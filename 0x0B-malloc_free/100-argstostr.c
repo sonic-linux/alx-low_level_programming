@@ -1,37 +1,52 @@
-#include "holberton.h"
+#include "main.h"
+#include <stdlib.h>
 
 /**
- * print_tab - Prints an array of string
- * @tab: The array to print
+ * argstostr - concatenates all the arguments of a program.
+ * @ac: argument count.
+ * @av: argument vector.
  *
- * Return: nothing
+ * Return: pointer of an array of char
  */
-void print_tab(char **tab)
+char *argstostr(int ac, char **av)
 {
-    int i;
+	char *aout;
+	int c, i, j, ia;
 
-    for (i = 0; tab[i] != NULL; ++i)
-    {
-        printf("%s\n", tab[i]);
-    }
-}
+	if (ac == 0)
+		return (NULL);
 
-/**
- * main - check the code for Holberton School students.
- *
- * Return: 1 if an error occurred, 0 otherwise
- */
-int main(void)
-{
-    char **tab;
-    printf("test\n");
-    tab = strtow("Holberton School         #cisfun");
+	for (c = i = 0; i < ac; i++)
+	{
+		if (av[i] == NULL)
+			return (NULL);
 
-    if (tab == NULL)
-    {
-        printf("Failed\n");
-        return (1);
-    }
-    print_tab(tab);
-    return (0);
+		for (j = 0; av[i][j] != '\0'; j++)
+			c++;
+		c++;
+	}
+
+	aout = malloc((c + 1) * sizeof(char));
+
+	if (aout == NULL)
+	{
+		free(aout);
+		return (NULL);
+	}
+
+	for (i = j = ia = 0; ia < c; j++, ia++)
+	{
+		if (av[i][j] == '\0')
+		{
+			aout[ia] = '\n';
+			i++;
+			ia++;
+			j = 0;
+		}
+		if (ia < c - 1)
+			aout[ia] = av[i][j];
+	}
+	aout[ia] = '\0';
+
+	return (aout);
 }
